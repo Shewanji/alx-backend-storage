@@ -56,8 +56,10 @@ def replay(method: Callable) -> None:
     input_key = f"{key}:inputs"
     output_key = f"{key}:outputs"
 
-    inputs = Cache._redis.lrange(input_key, 0, -1)
-    outputs = Cache._redis.lrange(output_key, 0, -1)
+    redis_client = redis.Redis()
+
+    inputs = redis_client.lrange(input_key, 0, -1)
+    outputs = redis_client.lrange(output_key, 0, -1)
 
     print(f"{key} was called {len(inputs)} times:")
 
